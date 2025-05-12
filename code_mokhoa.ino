@@ -8,8 +8,6 @@ const char* password = "21122009";  // Mật khẩu WiFi
 // ==== Chân điều khiển relay (nối với khoá điện) ====
 #define relayPin 12  // GPIO12 tương ứng chân D6 trên NodeMCU
 
-// ==== Khởi tạo Web Server chạy trên cổng 80 (HTTP) ====
-ESP8266WebServer server(80);
 
 // ==== Biến trạng thái mở khóa ====
 bool unlocking = false;                  // Biến cờ đánh dấu đang mở khóa
@@ -57,11 +55,6 @@ void setup() {
   // Cấu hình chân relay là OUTPUT và tắt relay ban đầu
   pinMode(relayPin, OUTPUT);
   digitalWrite(relayPin, LOW);        // Tắt relay (mức LOW)
-
-  // Khai báo các đường dẫn (route) cho Web Server
-  server.on("/", HTTP_GET, []() {
-    server.send(200, "text/plain", "ESP8266 đang hoạt động.!!!");
-  });
 
   server.on("/unlock", HTTP_GET, handleUnlock);  // Đường dẫn để điều khiển mở khóa
 
