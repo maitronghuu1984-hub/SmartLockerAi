@@ -35,10 +35,7 @@ while True:
         print("[ERROR] Không đọc được camera.")
         break
 
-    # Thu nhỏ và chuyển sang RGB để tăng tốc xử lý
-    small_frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
-    rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-
+  
     # Tìm khuôn mặt và mã hóa khuôn mặt trong khung hình
     face_locations = face_recognition.face_locations(rgb_small_frame)
     face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
@@ -50,9 +47,6 @@ while True:
     for face_encoding in face_encodings:
         matches = face_recognition.compare_faces(known_face_encodings, face_encoding, tolerance=0.45)
         name = "Sorry!"  # Nếu không khớp sẽ gán tên này
-
-        face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-        best_match_index = face_distances.argmin() if len(face_distances) > 0 else None
 
         if best_match_index is not None and matches[best_match_index]:
             name = known_face_names[best_match_index]
